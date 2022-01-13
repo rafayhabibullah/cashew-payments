@@ -2,6 +2,7 @@ package com.cashew.payments;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -9,8 +10,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +31,7 @@ import com.cashew.payments.service.TransactionService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(OrderAnnotation.class)
 class CashewPaymentsApplicationTests {
 
 	@Autowired
@@ -41,11 +47,29 @@ class CashewPaymentsApplicationTests {
 	private MockMvc mockMvc;
 	
 	@Test
+	@Order(1)
 	void contextLoads() {
 		assertThat(applicationContext).isNotNull();
 	}
 	
 	@Test
+	@Order(2)
+	public void shouldSaveAccounts() {
+		Account account1 = new Account("b2fd5a7d-d46c-4b57-a167-b802d4d37ffe1", "Ntags", new BigDecimal(4818.95));
+		Account account2 = new Account("3137505b-5076-43c0-9e51-9d204455927f2", "Chatterbridge", new BigDecimal(4866.69));
+		Account account3 = new Account("4cc8cf60-680d-4e84-9d02-3e4eb7b14be53", "Meetz", new BigDecimal(3464.20));
+		Account account4 = new Account("6b77ca56-a8c5-4a9a-9afa-da7d4b7e38eb4", "Fatz", new BigDecimal(4639.23));
+		
+		accountsService.saveAccounts(Arrays.asList(account1, account2, account3, account4));
+		
+		assertNotNull(accountsService.getAccount("b2fd5a7d-d46c-4b57-a167-b802d4d37ffe1").get());
+		assertNotNull(accountsService.getAccount("3137505b-5076-43c0-9e51-9d204455927f2").get());
+		assertNotNull(accountsService.getAccount("4cc8cf60-680d-4e84-9d02-3e4eb7b14be53").get());
+		assertNotNull(accountsService.getAccount("6b77ca56-a8c5-4a9a-9afa-da7d4b7e38eb4").get());
+	}
+	
+	@Test
+	@Order(3)
 	public void shouldReturnAccounts() throws Exception {
 		this.mockMvc.perform(get("/accounts"))
 				.andExpect(status().isOk())
@@ -53,9 +77,10 @@ class CashewPaymentsApplicationTests {
 	}
 	
 	@Test
+	@Order(4)
 	public void shouldNotTransfer_Zero_BetweenAccounts() throws Exception {
-		String transfererId = "3137505b-5076-43c0-9e51-9d204455927f";
-		String transfereeId = "b2fd5a7d-d46c-4b57-a167-b802d4d37ffe";
+		String transfererId = "3137505b-5076-43c0-9e51-9d204455927f2";
+		String transfereeId = "b2fd5a7d-d46c-4b57-a167-b802d4d37ffe1";
 		BigDecimal transferAmount  = new BigDecimal(0.0)
 				.setScale(2, RoundingMode.HALF_UP);
 		
@@ -64,9 +89,10 @@ class CashewPaymentsApplicationTests {
 	}
 	
 	@Test
+	@Order(5)
 	public void shouldTransfer_Fifty_BetweenAccounts() throws Exception {
-		String transfererId = "3137505b-5076-43c0-9e51-9d204455927f";
-		String transfereeId = "b2fd5a7d-d46c-4b57-a167-b802d4d37ffe";
+		String transfererId = "3137505b-5076-43c0-9e51-9d204455927f2";
+		String transfereeId = "b2fd5a7d-d46c-4b57-a167-b802d4d37ffe1";
 		BigDecimal transferAmount  = new BigDecimal(50.00)
 				.setScale(2, RoundingMode.HALF_UP);
 		
@@ -85,9 +111,10 @@ class CashewPaymentsApplicationTests {
 	}
 	
 	@Test
+	@Order(6)
 	public void shouldNotTransfer_NegativeAmount_BetweenAccounts() throws Exception {
-		String transfererId = "3137505b-5076-43c0-9e51-9d204455927f";
-		String transfereeId = "b2fd5a7d-d46c-4b57-a167-b802d4d37ffe";
+		String transfererId = "3137505b-5076-43c0-9e51-9d204455927f2";
+		String transfereeId = "b2fd5a7d-d46c-4b57-a167-b802d4d37ffe1";
 		BigDecimal transferAmount  = new BigDecimal(-25.00)
 				.setScale(2, RoundingMode.HALF_UP);
 		
@@ -96,9 +123,10 @@ class CashewPaymentsApplicationTests {
 	}
 	
 	@Test
+	@Order(7)
 	public void shouldTransfer_CompeleteBalance_BetweenAccounts() throws Exception {
-		String transfererId = "6b77ca56-a8c5-4a9a-9afa-da7d4b7e38eb";
-		String transfereeId = "4cc8cf60-680d-4e84-9d02-3e4eb7b14be5";
+		String transfererId = "6b77ca56-a8c5-4a9a-9afa-da7d4b7e38eb4";
+		String transfereeId = "4cc8cf60-680d-4e84-9d02-3e4eb7b14be53";
 		BigDecimal transferAmount  = new BigDecimal(4639.23)
 				.setScale(2, RoundingMode.HALF_UP);
 		

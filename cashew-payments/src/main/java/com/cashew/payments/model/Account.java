@@ -12,6 +12,15 @@ public class Account {
 	private String name;
 	private BigDecimal balance;
 	
+	public Account() {}
+	
+	public Account(String id, String name, BigDecimal balance) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.balance = balance;
+	}
+
 	public String getId() {
 		return id;
 	}
