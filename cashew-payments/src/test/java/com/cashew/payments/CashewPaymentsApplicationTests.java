@@ -2,6 +2,7 @@ package com.cashew.payments;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -17,6 +18,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.cashew.payments.exception.handler.InvalidInputException;
 import com.cashew.payments.model.Account;
 import com.cashew.payments.model.Transaction;
 import com.cashew.payments.service.AccountsService;
@@ -42,7 +44,7 @@ class CashewPaymentsApplicationTests {
 	void contextLoads() {
 		assertThat(applicationContext).isNotNull();
 	}
-
+	
 	@Test
 	public void shouldReturnAccounts() throws Exception {
 		this.mockMvc.perform(get("/accounts"))
@@ -57,18 +59,8 @@ class CashewPaymentsApplicationTests {
 		BigDecimal transferAmount  = new BigDecimal(0.0)
 				.setScale(2, RoundingMode.HALF_UP);
 		
-		BigDecimal expectedTransfererBalance = 
-				accountsService.getAccount(transfererId).get().getBalance();
-		BigDecimal expectedTransfereeBalance = 
-				accountsService.getAccount(transfereeId).get().getBalance();
-		
 		Transaction transaction = new Transaction(transfererId, transfereeId, transferAmount);
-
-		Account transfererTest = transactionService.transfer(transaction);
-		Account transfereeTest = accountsService.getAccount(transfereeId).get();
-
-		assertEquals(expectedTransfererBalance, transfererTest.getBalance());
-		assertEquals(expectedTransfereeBalance, transfereeTest.getBalance());
+		assertThrows(InvalidInputException.class, () -> transactionService.transfer(transaction));
 	}
 	
 	@Test
@@ -99,18 +91,8 @@ class CashewPaymentsApplicationTests {
 		BigDecimal transferAmount  = new BigDecimal(-25.00)
 				.setScale(2, RoundingMode.HALF_UP);
 		
-		BigDecimal expectedTransfererBalance = 
-				accountsService.getAccount(transfererId).get().getBalance();
-		BigDecimal expectedTransfereeBalance = 
-				accountsService.getAccount(transfereeId).get().getBalance();
-		
 		Transaction transaction = new Transaction(transfererId, transfereeId, transferAmount);
-
-		Account transfererTest = transactionService.transfer(transaction);
-		Account transfereeTest = accountsService.getAccount(transfereeId).get();
-
-		assertEquals(expectedTransfererBalance, transfererTest.getBalance());
-		assertEquals(expectedTransfereeBalance, transfereeTest.getBalance());
+		assertThrows(InvalidInputException.class, () -> transactionService.transfer(transaction));
 	}
 	
 	@Test
