@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.cashew.payments.model.Account;
 import com.cashew.payments.model.Transaction;
+import com.cashew.payments.validator.PaymentValidator;
 
 @Service
 public class TransactionService {
@@ -34,8 +35,7 @@ public class TransactionService {
 		Account transferer = optTransferer.get();
 		Account transferee = optTransferee.get();
 		
-		if(transaction.getAmount().compareTo(BigDecimal.ZERO) == 1 
-				&& transferer.getBalance().compareTo(transaction.getAmount()) >= 0) {
+		if(PaymentValidator.isValidTransfer(transaction, transferer)) {
 			log.debug("transfer - Transfering " + transaction.getAmount() + " from " + transaction.getTransferer() + " to " + transaction.getTransferee());
 			BigDecimal transfererBalance = transferer.getBalance().subtract(transaction.getAmount());
 			BigDecimal transfereeBalance = transferee.getBalance().add(transaction.getAmount());
