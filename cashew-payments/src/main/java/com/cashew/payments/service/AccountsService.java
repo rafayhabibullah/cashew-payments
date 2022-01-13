@@ -1,6 +1,7 @@
 package com.cashew.payments.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,14 @@ public class AccountsService {
 	
 	public List<Account> getAllAccounts() {
 		return accountsRepository.findAll();
+	}
+	
+	public Optional<Account> getAccount(String id) {
+		return accountsRepository.findById(id);
+	}
+	
+	public void saveTransfer(List<Account> accounts) {
+		accountsRepository.saveAll(accounts);
 	}
 	
 }
