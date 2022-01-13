@@ -1,15 +1,16 @@
 package com.cashew.payments.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
 
 @Entity
 public class Account {
 	@Id
 	private String id;
 	private String name;
-	private String balance;
+	private BigDecimal balance;
 	
 	public String getId() {
 		return id;
@@ -23,10 +24,10 @@ public class Account {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getBalance() {
+	public BigDecimal getBalance() {
 		return balance;
 	}
-	public void setBalance(String balance) {
+	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
 	
