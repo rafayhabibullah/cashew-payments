@@ -34,7 +34,8 @@ public class TransactionService {
 		Account transferer = optTransferer.get();
 		Account transferee = optTransferee.get();
 		
-		if(transferer.getBalance().compareTo(transaction.getAmount()) >= 0) {
+		if(transaction.getAmount().compareTo(BigDecimal.ZERO) == 1 
+				&& transferer.getBalance().compareTo(transaction.getAmount()) >= 0) {
 			log.debug("transfer - Transfering " + transaction.getAmount() + " from " + transaction.getTransferer() + " to " + transaction.getTransferee());
 			BigDecimal transfererBalance = transferer.getBalance().subtract(transaction.getAmount());
 			BigDecimal transfereeBalance = transferee.getBalance().add(transaction.getAmount());

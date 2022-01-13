@@ -7,6 +7,13 @@ public class Transaction {
 	private String transferee;
 	private BigDecimal amount;
 	
+	public Transaction(String transferer, String transferee, BigDecimal amount) {
+		super();
+		this.transferer = transferer;
+		this.transferee = transferee;
+		this.amount = amount;
+	}
+
 	public String getTransferer() {
 		return transferer;
 	}
@@ -24,5 +31,15 @@ public class Transaction {
 	}
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
+	}
+	
+	@Override
+	public String toString() {
+		return "Transaction [transferer=" + transferer + ", transferee=" + transferee + ", amount=" + amount + "]";
+	}
+	
+	public String toJsonString() {
+		return "{\"transferer\":\"" + transferer + "\", \"transferee\":\"" + transferee + "\","
+				+ " \"amount\":" + amount + "}";
 	}
 }

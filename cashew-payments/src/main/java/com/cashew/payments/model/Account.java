@@ -35,4 +35,8 @@ public class Account {
 	public String toString() {
 		return "Account [id=" + id + ", name=" + name + ", balance=" + balance + "]";
 	}
+	public String toJsonString() {
+		return "{\"id\":\"" + id + "\", \"name\":\"" + name + "\","
+				+ " \"balance\":" + balance + "}";
+	}
 }
