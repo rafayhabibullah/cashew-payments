@@ -22,6 +22,12 @@ import com.cashew.payments.model.Account;
 import com.cashew.payments.service.AccountsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Spring Boot Application class
+ * 
+ * @author rafayhabibullah
+ *
+ */
 @SpringBootApplication
 public class CashewPaymentsApplication {
 	
@@ -37,6 +43,12 @@ public class CashewPaymentsApplication {
 		SpringApplication.run(CashewPaymentsApplication.class, args);
 	}
 	
+	/**
+	 * Read list of accounts from mock JSON file stored in resources
+	 * Save all the accounts for transaction processing
+	 * 
+	 * @param accountsService
+	 */
 	@Bean
 	CommandLineRunner initAccounts(AccountsService accountsService) {
 		return args -> {

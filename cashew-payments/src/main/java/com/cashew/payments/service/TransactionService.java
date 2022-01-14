@@ -20,6 +20,12 @@ import com.cashew.payments.model.Account;
 import com.cashew.payments.model.Transaction;
 import com.cashew.payments.validator.PaymentValidator;
 
+/**
+ * {@code TransactionServcie} performs transfer between accounts
+ *  
+ * @author rafayhabibullah
+ *
+ */
 @Service
 public class TransactionService {
 	
@@ -28,6 +34,16 @@ public class TransactionService {
 	@Autowired
 	AccountsService accountsService;
 	
+	/**
+	 * Perform transfer of amount given in request from
+	 * Transferrer to transferee
+	 * 
+	 * Validates if transfer amount is invalid
+	 * Validates if transferrer has sufficient balance
+	 * 
+	 * @param transaction
+	 * @return Account - transferrer account details
+	 */
 	@Transactional(propagation=Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
 	public Account transfer(Transaction transaction) {
 		if(PaymentValidator.isInvalidTransferAmount(transaction))

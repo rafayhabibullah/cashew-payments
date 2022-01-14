@@ -15,6 +15,12 @@ import com.cashew.payments.model.Transaction;
 import com.cashew.payments.service.TransactionService;
 import com.cashew.payments.validator.RequestValidator;
 
+/**
+ * {@code TransactionController performs transfer operation}
+ * 
+ * @author rafayhabibullah
+ *
+ */
 @RestController
 public class TransactionController {
 	
@@ -23,6 +29,12 @@ public class TransactionController {
 	@Autowired
 	TransactionService transactionService;
 	
+	/**
+	 * performs transfer between transferrer and transferee
+	 * 
+	 * @param transaction
+	 * @return Account - returns transferrer account details
+	 */
 	@RequestMapping(value = "/transfer", method = RequestMethod.POST)
 	public ResponseEntity<Account> transfer(@RequestBody Transaction transaction) {
 		log.info("transfer service - started");

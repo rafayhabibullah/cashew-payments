@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cashew.payments.model.Account;
 import com.cashew.payments.service.AccountsService;
 
+/**
+ * {@code AccountsController} performs operations on accounts
+ * 
+ * @author rafayhabibullah
+ *
+ */
 @RestController
 public class AccountsController {
 	
@@ -22,6 +28,11 @@ public class AccountsController {
 	@Autowired
 	AccountsService accountsService;
 	
+	/**
+	 * Service endpoint to fetch all accounts from database
+	 * 
+	 * @return List<Account> - returns list of all accounts
+	 */
 	@RequestMapping(value = "/accounts", method = RequestMethod.GET)
 	public ResponseEntity<List<Account>> getAllAccounts() {
 		log.info("getAllAccounts service - started");
