@@ -10,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cashew.payments.exception.handler.InSufficientBalanceException;
 import com.cashew.payments.exception.handler.InvalidInputException;
@@ -25,6 +28,7 @@ public class TransactionService {
 	@Autowired
 	AccountsService accountsService;
 	
+	@Transactional(propagation=Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
 	public Account transfer(Transaction transaction) {
 		if(PaymentValidator.isInvalidTransferAmount(transaction))
 			throw new InvalidInputException("Invalid transfer amount");
