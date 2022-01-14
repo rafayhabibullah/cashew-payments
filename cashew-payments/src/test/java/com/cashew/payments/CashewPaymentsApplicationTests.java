@@ -124,7 +124,6 @@ class CashewPaymentsApplicationTests {
 
 		Thread thread1 = new Thread() {
 			public void run() {
-				System.out.println("Thread 1 " + Calendar.getInstance().getTime());
 				sleepForOneSecond();
 				String transfererId = "6b77ca56-a8c5-4a9a-9afa-da7d4b7e38eb4";
 				String transfereeId = "4cc8cf60-680d-4e84-9d02-3e4eb7b14be53";
@@ -137,8 +136,6 @@ class CashewPaymentsApplicationTests {
 				
 				Account transfererTest = transactionService.transfer(transaction);
 				Account transfereeTest = accountsService.getAccount(transfereeId).get();
-				System.out.println("THREAD 1 "+expectedTransfererBalance +" : " + transfererTest.getBalance());
-				System.out.println(expectedTransfereeBalance +" : " + transfereeTest.getBalance());
 				assertEquals(expectedTransfererBalance, transfererTest.getBalance());
 				assertEquals(expectedTransfereeBalance, transfereeTest.getBalance());
 			}
@@ -154,7 +151,6 @@ class CashewPaymentsApplicationTests {
 
 		Thread thread2 = new Thread() {
 			public void run() {
-				System.out.println("Thread 2 " + Calendar.getInstance().getTime());
 				String transfererId = "6b77ca56-a8c5-4a9a-9afa-da7d4b7e38eb4";
 				String transfereeId = "4cc8cf60-680d-4e84-9d02-3e4eb7b14be53";
 				BigDecimal transferAmount = new BigDecimal(20).setScale(2, RoundingMode.HALF_UP);
@@ -166,8 +162,6 @@ class CashewPaymentsApplicationTests {
 
 				Account transfererTest = transactionService.transfer(transaction);
 				Account transfereeTest = accountsService.getAccount(transfereeId).get();
-				System.out.println(" THREAD 2 "+expectedTransfererBalance +" : " + transfererTest.getBalance());
-				System.out.println(expectedTransfereeBalance +" : " + transfereeTest.getBalance());
 				assertEquals(expectedTransfererBalance, transfererTest.getBalance());
 				assertEquals(expectedTransfereeBalance, transfereeTest.getBalance());
 			}
