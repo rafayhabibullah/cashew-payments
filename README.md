@@ -3,7 +3,7 @@ RESTful API implementation for money transfers in Spring Boot
 
 ## Packaging
 ```
-mvn package
+mvn clean package
 ```
 
 ## Testing
@@ -24,3 +24,8 @@ Application provides APIs for following 2 features
 
 - Retrieve Accounts service /accounts
 - Transfer Service /transfer
+
+
+## APIs
+- http://{{host}}:{{port}}/accounts
+- http://{{host}}:{{port}}/transfer
