@@ -1,8 +1,12 @@
 package com.cashew.payments;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +16,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 import com.cashew.payments.model.Account;
@@ -38,10 +41,11 @@ public class CashewPaymentsApplication {
 	CommandLineRunner initAccounts(AccountsService accountsService) {
 		return args -> {
 			log.info("Initializing account details : " + filePath);
-			try {
-				Resource resource = resourceLoader.getResource(filePath);
+			try (InputStream inputStream = getClass().getResourceAsStream(filePath)){
+				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+				String data = bufferedReader.lines().collect(Collectors.joining());
 				List<Account> accounts = Arrays.asList(new ObjectMapper().readValue(
-						resource.getFile(), Account[].class));
+						data, Account[].class));
 				accountsService.saveAccounts(accounts);
 				log.info("Accounts data populated from : " + filePath);
 			} catch (IOException e) {

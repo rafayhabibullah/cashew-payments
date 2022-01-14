@@ -12,9 +12,8 @@
 	<artifactId>cashew-payments</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cashew-payments</name>
-	<description>RESTful API implementation for money transfers
-
-</description>
+	<description>RESTful API implementation for money transfers</description>
+	<packaging>jar</packaging>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
