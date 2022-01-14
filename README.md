@@ -3,7 +3,7 @@ RESTful API implementation for money transfers in Spring Boot
 
 ## Packaging
 ```
-mvn package
+mvn clean package
 ```
 
 ## Testing
