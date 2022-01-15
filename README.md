@@ -4,7 +4,7 @@ RESTful API implementation for money transfers in Spring Boot
 ## Execution
 ```
 mvn clean package
-java -jar demo-0.0.1-SNAPSHOT.jar
+java -jar target/cashew-payments-0.0.1-SNAPSHOT.jar
 ```
 
 ## Testing
