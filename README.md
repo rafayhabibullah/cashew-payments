@@ -23,6 +23,7 @@ Application provides APIs for following 2 features
 
 
 ## APIs
+By default it will be executed over localhost:8080
 ```
 
 - @GET http://{{host}}:{{port}}/accounts
